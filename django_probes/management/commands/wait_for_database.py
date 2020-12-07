@@ -7,7 +7,7 @@ from time import sleep, time
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connections, DEFAULT_DB_ALIAS
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, DatabaseError
 
 
 def wait_for_database(**opts):
@@ -32,7 +32,7 @@ def wait_for_database(**opts):
                 if not conn_alive_start:
                     conn_alive_start = time()
                 break
-            except OperationalError as err:
+            except (OperationalError, DatabaseError) as err:
                 conn_alive_start = None
 
                 elapsed_time = int(time() - start)
