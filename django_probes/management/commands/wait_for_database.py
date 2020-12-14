@@ -28,7 +28,7 @@ def wait_for_database(**opts):
         # loop until we have a database connection or we run into a timeout
         while True:
             try:
-                connection.cursor().execute('show con_name')
+                connection.cursor().execute('select con_id, name, open_mode from v$pdbs')
                 if not conn_alive_start:
                     conn_alive_start = time()
                 break
